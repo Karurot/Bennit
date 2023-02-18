@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "420863540274",
+    "project_id": "bennit-f6ace",
+    "storage_bucket": "bennit-f6ace.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:420863540274:android:15596300011665a283902b",
+        "android_client_info": {
+          "package_name": "com.example.bennit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "420863540274-h5qmnasql9vtltguaktogbiugsibismc.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bennit",
+            "certificate_hash": "51e2b65eb49bf6a66ef4775f6c667f6007ff1ea5"
+          }
+        },
+        {
+          "client_id": "420863540274-8qg5a32uq6hqefpdou31l4skkk59jace.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDIEs2wP1WM2GOzYlKwMWmM2u_s2hoZs1I"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "420863540274-8qg5a32uq6hqefpdou31l4skkk59jace.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "420863540274-7vujn0ai08scv1h7p59u8riab952rm0l.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bennit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
