@@ -1,18 +1,38 @@
+import 'package:bennit/core/constants/constants.dart';
+import 'package:bennit/core/utils.dart';
+import 'package:bennit/features/auth/controller/auth_controller.dart';
 import 'package:bennit/features/community/repository/communitory_repositort.dart';
 import 'package:bennit/models/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:routemaster/routemaster.dart';
 
-class CommunityController {
+class CommunityController extends StateNotifier<bool> {
   final CommunityRepository _communityRepository;
-  final _ref;
+  final Ref _ref;
   CommunityController(
       {required CommunityRepository communityRepository, required Ref ref})
       : _communityRepository = communityRepository,
-        _ref = ref;
+        _ref = ref,
+        super(false);
 
+  void createCommunity(String name, BuildContext context) async {
+    state = true;
+    final uid = _ref.read(userProvider)?.uid ?? '';
+    Community community = Community(
+      id: name,
+      name: name,
+      banner: Constants.bannerDefault,
+      avatar: Constants.avatarDefault,
+      members: [uid],
+      mods: [uid],
+    );
 
-  void createCommunity(String name, BuildContext context) async{
-    Community community = Community(id: id, name: name, banner: banner, avatar: avatar, members: members, mods: mods)
-  },
+    final res = await _communityRepository.createCommunity(community);
+    state = false;
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      showSnackBar(context, 'Community created successfully');
+      Routemaster.of(context).pop();
+    });
+  }
 }
