@@ -1,6 +1,7 @@
 import 'package:bennit/features/auth/screens/login_screen.dart';
 import 'package:bennit/features/community/screens/community_screen.dart';
 import 'package:bennit/features/community/screens/create_community_screen.dart';
+import 'package:bennit/features/community/screens/edit_community_Screen.dart';
 import 'package:bennit/features/community/screens/mod_tool_screen.dart';
 import 'package:bennit/features/home/screens/home_Screen.dart';
 import 'package:flutter/material.dart';
@@ -19,5 +20,14 @@ final loggedInRoute = RouteMap(routes: {
           name: route.pathParameters['name']!,
         ),
       ),
-  '/mod-tools': (_) => const MaterialPage(child: ModToolsScreen()),
+  '/mod-tools/:name': (RouteData) => MaterialPage(
+        child: ModToolsScreen(
+          name: RouteData.pathParameters['name']!,
+        ),
+      ),
+  '/edit-community/:name': (RouteData) => MaterialPage(
+        child: EditCommunityScreen(
+          name: RouteData.pathParameters['name']!,
+        ),
+      ),
 });
