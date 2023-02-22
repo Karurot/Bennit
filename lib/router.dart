@@ -20,14 +20,14 @@ final loggedInRoute = RouteMap(routes: {
           name: route.pathParameters['name']!,
         ),
       ),
-  '/mod-tools/:name': (RouteData) => MaterialPage(
+  '/mod-tools/:name': (routeData) => MaterialPage(
         child: ModToolsScreen(
-          name: RouteData.pathParameters['name']!,
+          name: routeData.pathParameters['name']!,
         ),
       ),
-  '/edit-community/:name': (RouteData) => MaterialPage(
+  '/edit-community/:name': (routeData) => MaterialPage(
         child: EditCommunityScreen(
-          name: RouteData.pathParameters['name']!,
+          name: routeData.pathParameters['name']!,
         ),
       ),
 });
