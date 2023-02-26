@@ -8,7 +8,10 @@ import 'package:bennit/features/community/repository/communitory_repositort.dart
 import 'package:bennit/models/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:fpdart/fpdart.dart';
 import 'package:routemaster/routemaster.dart';
+
+import '../../../core/failure.dart';
 
 final userCommunitesProvider = StreamProvider((ref) {
   final communityController = ref.watch(communityConrollerProvider.notifier);
@@ -66,6 +69,23 @@ class CommunityController extends StateNotifier<bool> {
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Community created successfully');
       Routemaster.of(context).pop();
+    });
+  }
+
+  void joinCommunity(Community community, BuildContext context) async {
+    final user = _ref.read(userProvider)!;
+    Either<Failure, void> res;
+    if (community.members.contains(user.uid)) {
+      res = await _communityRepository.leaveCommunity(community.name, user.uid);
+    } else {
+      res = await _communityRepository.joinCommunity(community.name, user.uid);
+    }
+    res.fold((l) => showSnackBar(context, l.message), (r) {
+      if (community.members.contains(user.uid)) {
+        showSnackBar(context, 'Left community');
+      } else {
+        showSnackBar(context, 'Joined community');
+      }
     });
   }
 

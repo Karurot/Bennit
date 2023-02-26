@@ -2,6 +2,7 @@ import 'package:bennit/core/common/error_text.dart';
 import 'package:bennit/core/common/loader.dart';
 import 'package:bennit/features/auth/controller/auth_controller.dart';
 import 'package:bennit/features/community/controller/community_controller.dart';
+import 'package:bennit/models/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -12,6 +13,12 @@ class CommunityScreen extends ConsumerWidget {
 
   void navigateToModTools(BuildContext context) {
     Routemaster.of(context).push('/mod-tools/$name');
+  }
+
+  void joinCommunity(WidgetRef ref, Community community, BuildContext context) {
+    ref
+        .read(communityConrollerProvider.notifier)
+        .joinCommunity(community, context);
   }
 
   @override
@@ -78,7 +85,8 @@ class CommunityScreen extends ConsumerWidget {
                                         child: const Text('Mod Tools'),
                                       )
                                     : OutlinedButton(
-                                        onPressed: () {},
+                                        onPressed: () => joinCommunity(
+                                            ref, community, context),
                                         style: ElevatedButton.styleFrom(
                                           shape: RoundedRectangleBorder(
                                             borderRadius:
