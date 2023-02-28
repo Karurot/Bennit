@@ -1,4 +1,5 @@
 import 'package:bennit/features/auth/screens/login_screen.dart';
+import 'package:bennit/features/community/screens/add_mod_screen.dart';
 import 'package:bennit/features/community/screens/community_screen.dart';
 import 'package:bennit/features/community/screens/create_community_screen.dart';
 import 'package:bennit/features/community/screens/edit_community_Screen.dart';
@@ -27,6 +28,11 @@ final loggedInRoute = RouteMap(routes: {
       ),
   '/edit-community/:name': (routeData) => MaterialPage(
         child: EditCommunityScreen(
+          name: routeData.pathParameters['name']!,
+        ),
+      ),
+  '/add-mods/:name': (routeData) => MaterialPage(
+        child: AddModScreen(
           name: routeData.pathParameters['name']!,
         ),
       ),
