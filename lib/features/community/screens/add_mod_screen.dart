@@ -15,6 +15,7 @@ class AddModScreen extends ConsumerStatefulWidget {
 
 class _AddModScreenState extends ConsumerState<AddModScreen> {
   Set<String> uids = {};
+  int ctr = 0;
 
   void addUids(String uid) {
     setState(() {
@@ -55,9 +56,10 @@ class _AddModScreenState extends ConsumerState<AddModScreen> {
 
                   return ref.watch(getUserDataProvider(member)).when(
                       data: (user) {
-                        if (community.mods.contains(member)) {
+                        if (community.mods.contains(member) && ctr == 0) {
                           uids.add(member);
                         }
+                        ctr++;
                         return CheckboxListTile(
                           value: uids.contains(user.uid),
                           onChanged: (val) {
