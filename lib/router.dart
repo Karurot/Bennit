@@ -5,6 +5,7 @@ import 'package:bennit/features/community/screens/create_community_screen.dart';
 import 'package:bennit/features/community/screens/edit_community_Screen.dart';
 import 'package:bennit/features/community/screens/mod_tool_screen.dart';
 import 'package:bennit/features/home/screens/home_Screen.dart';
+import 'package:bennit/features/user_profile/screens/edit_profile_screen.dart';
 import 'package:bennit/features/user_profile/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
@@ -40,6 +41,11 @@ final loggedInRoute = RouteMap(
         ),
     '/u/:uid': (routeData) => MaterialPage(
           child: UserProfileScreen(
+            uid: routeData.pathParameters['uid']!,
+          ),
+        ),
+    '/edit-profile/:uid': (routeData) => MaterialPage(
+          child: EditProfileScreen(
             uid: routeData.pathParameters['uid']!,
           ),
         ),

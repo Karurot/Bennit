@@ -5,7 +5,6 @@ import 'package:routemaster/routemaster.dart';
 import '../../../core/common/error_text.dart';
 import '../../../core/common/loader.dart';
 import '../../auth/controller/auth_controller.dart';
-import '../../community/controller/community_controller.dart';
 
 class UserProfileScreen extends ConsumerWidget {
   final String uid;
@@ -14,9 +13,12 @@ class UserProfileScreen extends ConsumerWidget {
     required this.uid,
   });
 
+  void navigateToEditUser(BuildContext context) {
+    Routemaster.of(context).push('/edit-profile/$uid');
+  }
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final user = ref.watch(userProvider)!;
     return Scaffold(
       body: ref.watch(getUserDataProvider(uid)).when(
           data: (user) => NestedScrollView(
@@ -47,7 +49,7 @@ class UserProfileScreen extends ConsumerWidget {
                             alignment: Alignment.bottomLeft,
                             padding: const EdgeInsets.all(20),
                             child: OutlinedButton(
-                              onPressed: () {},
+                              onPressed: () => navigateToEditUser(context),
                               style: ElevatedButton.styleFrom(
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
