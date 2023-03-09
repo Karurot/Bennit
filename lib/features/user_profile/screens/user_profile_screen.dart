@@ -54,7 +54,6 @@ class UserProfileScreen extends ConsumerWidget {
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(20),
                                 ),
-                                backgroundColor: Pallete.blackColor,
                                 padding:
                                     const EdgeInsets.symmetric(horizontal: 25),
                               ),
