@@ -1,3 +1,4 @@
+import 'package:bennit/core/constants/constants.dart';
 import 'package:bennit/features/auth/controller/auth_controller.dart';
 import 'package:bennit/features/home/drawers/community_list_drawer.dart';
 import 'package:bennit/theme/Pallete.dart';
@@ -65,6 +66,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           })
         ],
       ),
+      body: Constants.tabwidgets[_page],
       drawer: const CommunityListDrawer(),
       endDrawer: const ProfileDrawer(),
       bottomNavigationBar: CupertinoTabBar(
@@ -81,6 +83,7 @@ class HomeScreenState extends ConsumerState<HomeScreen> {
           ),
         ],
         onTap: onPageChanged,
+        currentIndex: _page,
       ),
     );
   }
