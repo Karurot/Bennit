@@ -1,6 +1,7 @@
 import 'package:any_link_preview/any_link_preview.dart';
 import 'package:bennit/core/constants/constants.dart';
 import 'package:bennit/features/auth/controller/auth_controller.dart';
+import 'package:bennit/features/post/controller/post_controller.dart';
 import 'package:bennit/models/post_model.dart';
 import 'package:bennit/theme/pallete.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +9,22 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class PostCard extends ConsumerWidget {
   final Post post;
-  const PostCard({super.key, required this.post});
+  const PostCard({
+    super.key,
+    required this.post,
+  });
+
+  void deletePost(WidgetRef ref, BuildContext context) async {
+    ref.read(postConrollerProvider.notifier).deletePost(post, context);
+  }
+
+  void upvotePost(WidgetRef ref) async {
+    ref.read(postConrollerProvider.notifier).upvote(post);
+  }
+
+  void downvotePost(WidgetRef ref) async {
+    ref.read(postConrollerProvider.notifier).downvote(post);
+  }
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -55,14 +71,14 @@ class PostCard extends ConsumerWidget {
                                           children: [
                                             Text(
                                               'b/${post.communityName}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 16,
                                                 fontWeight: FontWeight.bold,
                                               ),
                                             ),
                                             Text(
                                               'u/${post.username}',
-                                              style: TextStyle(
+                                              style: const TextStyle(
                                                 fontSize: 12,
                                               ),
                                             ),
@@ -72,7 +88,7 @@ class PostCard extends ConsumerWidget {
                                 ),
                                 if (post.uid == user.uid)
                                   IconButton(
-                                    onPressed: () {},
+                                    onPressed: () => deletePost(ref, context),
                                     icon: Icon(
                                       Icons.delete,
                                       color: Pallete.redColor,
@@ -101,9 +117,10 @@ class PostCard extends ConsumerWidget {
                                 ),
                               ),
                             if (isTypelink)
-                              SizedBox(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.35,
+                              Container(
+                                height: 150,
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 18.0),
                                 width: double.infinity,
                                 child: AnyLinkPreview(
                                   displayDirection:
@@ -130,7 +147,7 @@ class PostCard extends ConsumerWidget {
                                 Row(
                                   children: [
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () => upvotePost(ref),
                                       icon: Icon(
                                         Constants.up,
                                         size: 30,
@@ -144,7 +161,7 @@ class PostCard extends ConsumerWidget {
                                       style: const TextStyle(fontSize: 17),
                                     ),
                                     IconButton(
-                                      onPressed: () {},
+                                      onPressed: () => downvotePost(ref),
                                       icon: Icon(
                                         Constants.down,
                                         size: 30,
