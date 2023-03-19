@@ -2,6 +2,7 @@ import 'package:bennit/core/constants/firebase_constants.dart';
 import 'package:bennit/core/failure.dart';
 import 'package:bennit/core/providers/firebase_providers.dart';
 import 'package:bennit/core/type_def.dart';
+import 'package:bennit/models/comment_model.dart';
 import 'package:bennit/models/community_model.dart';
 import 'package:bennit/models/post_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -21,6 +22,9 @@ class PostRepository {
 
   CollectionReference get _posts =>
       _firestore.collection(FirebaseConstants.postsCollection);
+
+  CollectionReference get _comments =>
+      _firestore.collection(FirebaseConstants.commentsCollection);
 
   FutureVoid addPost(Post post) async {
     try {
@@ -86,6 +90,23 @@ class PostRepository {
       _posts.doc(post.id).update({
         'downvotes': FieldValue.arrayUnion([userId]),
       });
+    }
+  }
+
+  Stream<Post> getPostById(String postId) {
+    return _posts
+        .doc(postId)
+        .snapshots()
+        .map((event) => Post.fromMap(event.data() as Map<String, dynamic>));
+  }
+
+  FutureVoid addComment(Comment comment) async {
+    try {
+      return right(_comments.doc(comment.id).set(comment.toMap()));
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
     }
   }
 }

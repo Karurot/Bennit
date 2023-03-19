@@ -3,6 +3,7 @@ import 'package:bennit/core/providers/storage_repository_provider.dart';
 import 'package:bennit/core/utils.dart';
 import 'package:bennit/features/auth/controller/auth_controller.dart';
 import 'package:bennit/features/post/repository/post_repository.dart';
+import 'package:bennit/models/comment_model.dart';
 import 'package:bennit/models/community_model.dart';
 import 'package:bennit/models/post_model.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +26,11 @@ final userPostsProvider =
     StreamProvider.family((ref, List<Community> communities) {
   final postController = ref.watch(postConrollerProvider.notifier);
   return postController.fetchUserPosts(communities);
+});
+
+final getPostByIDProvider = StreamProvider.family((ref, String postId) {
+  final postController = ref.watch(postConrollerProvider.notifier);
+  return postController.getPostById(postId);
 });
 
 class PostController extends StateNotifier<bool> {
@@ -80,7 +86,7 @@ class PostController extends StateNotifier<bool> {
     required String link,
   }) async {
     state = true;
-    String postId = Uuid().v1();
+    String postId = const Uuid().v1();
     final user = _ref.read(userProvider)!;
     final Post post = Post(
       id: postId,
@@ -113,7 +119,7 @@ class PostController extends StateNotifier<bool> {
     required File? file,
   }) async {
     state = true;
-    String postId = Uuid().v1();
+    String postId = const Uuid().v1();
     final user = _ref.read(userProvider)!;
     final imageRes = await _storageRepository.storeFile(
         path: 'posts/${selectedCommunity.name}', id: postId, file: file);
@@ -163,5 +169,28 @@ class PostController extends StateNotifier<bool> {
   void downvote(Post post) async {
     final uid = _ref.read(userProvider)!.uid;
     _postRepository.downvote(post, uid);
+  }
+
+  Stream<Post> getPostById(String postId) {
+    return _postRepository.getPostById(postId);
+  }
+
+  void addComment({
+    required BuildContext context,
+    required String text,
+    required Post post,
+  }) async {
+    final user = _ref.read(userProvider)!;
+    String commentId = const Uuid().v1();
+    Comment comment = Comment(
+      id: commentId,
+      text: text,
+      createdAt: DateTime.now(),
+      postId: post.id,
+      username: user.name,
+      profilePic: user.profilePic,
+    );
+    final res = await _postRepository.addComment(comment);
+    res.fold((l) => showSnackBar(context, l.message), (r) => null);
   }
 }
