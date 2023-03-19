@@ -34,6 +34,7 @@ class AddPostScreen extends ConsumerWidget {
                 child: Icon(
                   Icons.image_outlined,
                   size: iconSize,
+                  color: currentTheme.iconTheme.color,
                 ),
               ),
             ),
@@ -54,6 +55,7 @@ class AddPostScreen extends ConsumerWidget {
                 child: Icon(
                   Icons.font_download_outlined,
                   size: iconSize,
+                  color: currentTheme.iconTheme.color,
                 ),
               ),
             ),
@@ -74,6 +76,7 @@ class AddPostScreen extends ConsumerWidget {
                 child: Icon(
                   Icons.link_outlined,
                   size: iconSize,
+                  color: currentTheme.iconTheme.color,
                 ),
               ),
             ),

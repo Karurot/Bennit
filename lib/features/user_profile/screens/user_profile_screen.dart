@@ -1,3 +1,5 @@
+import 'package:bennit/core/common/post_card.dart';
+import 'package:bennit/features/user_profile/controller/user_profile_controller.dart';
 import 'package:bennit/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -96,7 +98,20 @@ class UserProfileScreen extends ConsumerWidget {
                     )
                   ];
                 },
-                body: const Text("Displaying community posts"),
+                body: ref.watch(getUserPostsProvider(uid)).when(
+                    data: (data) {
+                      return ListView.builder(
+                        itemCount: data.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final post = data[index];
+                          return PostCard(post: post);
+                        },
+                      );
+                    },
+                    error: (error, stackTrace) {
+                      return ErrorText(error: error.toString());
+                    },
+                    loading: () => const Loader()),
               ),
           error: (error, stackTrace) => ErrorText(error: error.toString()),
           loading: () => const Loader()),
