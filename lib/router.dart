@@ -57,7 +57,7 @@ final loggedInRoute = RouteMap(
           ),
         ),
     '/post/:postId/comments': (routeData) => MaterialPage(
-          child: commentScreen(
+          child: CommentScreen(
             postId: routeData.pathParameters['postId']!,
           ),
         ),
