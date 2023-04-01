@@ -12,6 +12,8 @@ import 'package:bennit/features/user_profile/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
 
+import 'features/home/screens/top_posts_screen.dart';
+
 final loggedOutRoute = RouteMap(routes: {
   '/': (_) => const MaterialPage(child: LoginScreen()),
 });
@@ -21,6 +23,7 @@ final loggedInRoute = RouteMap(
     '/': (_) => const MaterialPage(child: HomeScreen()),
     '/create-community': (_) =>
         const MaterialPage(child: CreateCommunityScreen()),
+    '/top-posts': (_) => const MaterialPage(child: TopPostScreen()),
     '/b/:name': (route) => MaterialPage(
           child: CommunityScreen(
             name: route.pathParameters['name']!,

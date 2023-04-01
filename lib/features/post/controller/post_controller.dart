@@ -30,6 +30,12 @@ final userPostsProvider =
   return postController.fetchUserPosts(communities);
 });
 
+final topPostsProvider =
+    StreamProvider.family((ref, List<Community> communities) {
+  final postController = ref.watch(postConrollerProvider.notifier);
+  return postController.fetchTopPosts(communities);
+});
+
 final getPostByIDProvider = StreamProvider.family((ref, String postId) {
   final postController = ref.watch(postConrollerProvider.notifier);
   return postController.getPostById(postId);
@@ -76,6 +82,7 @@ class PostController extends StateNotifier<bool> {
       createdAt: DateTime.now(),
       awards: [],
       description: desciption,
+      voteCount: 0,
     );
 
     final res = await _postRepository.addPost(post);
@@ -113,6 +120,7 @@ class PostController extends StateNotifier<bool> {
       createdAt: DateTime.now(),
       awards: [],
       link: link,
+      voteCount: 0,
     );
 
     final res = await _postRepository.addPost(post);
@@ -153,6 +161,7 @@ class PostController extends StateNotifier<bool> {
         createdAt: DateTime.now(),
         awards: [],
         link: r,
+        voteCount: 0,
       );
       final res = await _postRepository.addPost(post);
       _ref
@@ -169,6 +178,13 @@ class PostController extends StateNotifier<bool> {
   Stream<List<Post>> fetchUserPosts(List<Community> communities) {
     if (communities.isNotEmpty) {
       return _postRepository.fetchUserPosts(communities);
+    }
+    return Stream.value([]);
+  }
+
+  Stream<List<Post>> fetchTopPosts(List<Community> communities) {
+    if (communities.isNotEmpty) {
+      return _postRepository.fetchTopPosts(communities);
     }
     return Stream.value([]);
   }

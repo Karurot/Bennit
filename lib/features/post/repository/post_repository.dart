@@ -47,6 +47,13 @@ class PostRepository {
             .toList());
   }
 
+  Stream<List<Post>> fetchTopPosts(List<Community> communities) {
+    return _posts.orderBy('voteCount', descending: true).snapshots().map(
+        (event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
+  }
+
   FutureVoid deletePost(Post post) async {
     try {
       return right(_posts.doc(post.id).delete());
@@ -62,15 +69,24 @@ class PostRepository {
       _posts.doc(post.id).update({
         'downvotes': FieldValue.arrayRemove([userId]),
       });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(1),
+      });
     }
 
     if (post.upvotes.contains(userId)) {
       _posts.doc(post.id).update({
         'upvotes': FieldValue.arrayRemove([userId]),
       });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(-1),
+      });
     } else {
       _posts.doc(post.id).update({
         'upvotes': FieldValue.arrayUnion([userId]),
+      });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(1),
       });
     }
   }
@@ -80,15 +96,24 @@ class PostRepository {
       _posts.doc(post.id).update({
         'upvotes': FieldValue.arrayRemove([userId]),
       });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(-1),
+      });
     }
 
     if (post.downvotes.contains(userId)) {
       _posts.doc(post.id).update({
         'downvotes': FieldValue.arrayRemove([userId]),
       });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(1),
+      });
     } else {
       _posts.doc(post.id).update({
         'downvotes': FieldValue.arrayUnion([userId]),
+      });
+      _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(-1),
       });
     }
   }

@@ -13,6 +13,10 @@ class ProfileDrawer extends ConsumerWidget {
     Routemaster.of(context).push('/u/$uid');
   }
 
+  void navigateToTopPost(BuildContext context) {
+    Routemaster.of(context).push('/top-posts');
+  }
+
   void logOut(WidgetRef ref) {
     ref.read(authControllerProvider.notifier).logOut();
   }
@@ -50,6 +54,16 @@ class ProfileDrawer extends ConsumerWidget {
               },
             ),
             ListTile(
+              title: const Text('Top Posts'),
+              leading: Icon(
+                Icons.trending_up,
+                color: Pallete.redColor,
+              ),
+              onTap: () {
+                navigateToTopPost(context);
+              },
+            ),
+            ListTile(
               title: const Text('Log Out'),
               leading: Icon(
                 Icons.logout,
@@ -57,11 +71,11 @@ class ProfileDrawer extends ConsumerWidget {
               ),
               onTap: () => logOut(ref),
             ),
-            Switch.adaptive(
-              value: ref.watch(themeNotifierProvider.notifier).mode ==
-                  ThemeMode.dark,
-              onChanged: (val) => toggleTheme(ref),
-            ),
+            // Switch.adaptive(
+            //   value: ref.watch(themeNotifierProvider.notifier).mode ==
+            //       ThemeMode.dark,
+            //   onChanged: (val) => toggleTheme(ref),
+            // ),
             GestureDetector(
               onTap: () async {
                 Uri url = Uri.https('applications.bennett.edu.in');

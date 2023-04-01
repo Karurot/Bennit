@@ -15,6 +15,7 @@ class Post {
   final String type;
   final DateTime createdAt;
   final List<String> awards;
+  final int voteCount;
   Post({
     required this.id,
     required this.title,
@@ -30,6 +31,7 @@ class Post {
     required this.type,
     required this.createdAt,
     required this.awards,
+    required this.voteCount,
   });
 
   Post copyWith({
@@ -47,6 +49,7 @@ class Post {
     String? type,
     DateTime? createdAt,
     List<String>? awards,
+    int? voteCount,
   }) {
     return Post(
       id: id ?? this.id,
@@ -63,6 +66,7 @@ class Post {
       type: type ?? this.type,
       createdAt: createdAt ?? this.createdAt,
       awards: awards ?? this.awards,
+      voteCount: voteCount ?? this.voteCount,
     );
   }
 
@@ -82,6 +86,7 @@ class Post {
       'type': type,
       'createdAt': createdAt.millisecondsSinceEpoch,
       'awards': awards,
+      'voteCount': voteCount,
     };
   }
 
@@ -101,12 +106,13 @@ class Post {
       type: map['type'] ?? '',
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       awards: List<String>.from(map['awards']),
+      voteCount: map['voteCount']?.toInt() ?? 0,
     );
   }
 
   @override
   String toString() {
-    return 'Post(id: $id, title: $title, link: $link, description: $description, communityName: $communityName, communityProfilePic: $communityProfilePic, upvotes: $upvotes, downvotes: $downvotes, commentCount: $commentCount, username: $username, uid: $uid, type: $type, createdAt: $createdAt, awards: $awards)';
+    return 'Post(id: $id, title: $title, link: $link, description: $description, communityName: $communityName, communityProfilePic: $communityProfilePic, upvotes: $upvotes, downvotes: $downvotes, commentCount: $commentCount, username: $username, uid: $uid, type: $type, createdAt: $createdAt, awards: $awards, voteCount: $voteCount)';
   }
 
   @override
@@ -127,7 +133,8 @@ class Post {
         other.uid == uid &&
         other.type == type &&
         other.createdAt == createdAt &&
-        listEquals(other.awards, awards);
+        listEquals(other.awards, awards) &&
+        other.voteCount == voteCount;
   }
 
   @override
@@ -145,6 +152,7 @@ class Post {
         uid.hashCode ^
         type.hashCode ^
         createdAt.hashCode ^
-        awards.hashCode;
+        awards.hashCode ^
+        voteCount.hashCode;
   }
 }
