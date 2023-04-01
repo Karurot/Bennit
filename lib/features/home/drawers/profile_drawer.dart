@@ -2,6 +2,7 @@ import 'package:bennit/theme/pallete.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../../auth/controller/auth_controller.dart';
 
@@ -60,6 +61,24 @@ class ProfileDrawer extends ConsumerWidget {
               value: ref.watch(themeNotifierProvider.notifier).mode ==
                   ThemeMode.dark,
               onChanged: (val) => toggleTheme(ref),
+            ),
+            GestureDetector(
+              onTap: () async {
+                Uri url = Uri.https('applications.bennett.edu.in');
+                try {
+                  if (await canLaunchUrl(url)) {
+                    await launchUrl(
+                      url,
+                    );
+                  } else {
+                    throw 'Could not launch $url';
+                  }
+                } catch (_) {}
+              }, // Image tapped
+              child: Image.asset(
+                'assets/images/bennett-mobile-banner.jpg',
+                fit: BoxFit.cover, // Fixes border issues
+              ),
             )
           ],
         ),

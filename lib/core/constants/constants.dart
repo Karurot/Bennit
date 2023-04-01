@@ -1,5 +1,5 @@
 import 'package:bennit/features/feed/feed_screen.dart';
-import 'package:bennit/features/home/screens/home_Screen.dart';
+import 'package:bennit/features/home/screens/home_screen.dart';
 import 'package:bennit/features/post/screens/add_post_screen.dart';
 import 'package:flutter/material.dart';
 

@@ -1,7 +1,6 @@
 import 'package:bennit/core/common/error_text.dart';
 import 'package:bennit/core/common/loader.dart';
 import 'package:bennit/features/community/controller/community_controller.dart';
-import 'package:bennit/models/community_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -51,6 +50,6 @@ class SearchCommunityDelegate extends SearchDelegate {
   }
 
   void navigateToCommunity(BuildContext context, String communityName) {
-    Routemaster.of(context).push('/b/${communityName}');
+    Routemaster.of(context).push('/b/$communityName');
   }
 }

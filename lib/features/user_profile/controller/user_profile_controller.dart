@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:bennit/core/enums/enums.dart';
 import 'package:bennit/core/utils.dart';
 import 'package:bennit/features/auth/controller/auth_controller.dart';
 import 'package:bennit/models/post_model.dart';
@@ -84,5 +85,14 @@ class UserProfileController extends StateNotifier<bool> {
 
   Stream<List<Post>> getUserPosts(String uid) {
     return _userProfileRepository.getUserPosts(uid);
+  }
+
+  void updateUserKarma(UserKarma karma) async {
+    UserModel user = _ref.read(userProvider)!;
+    user = user.copyWith(karma: karma.karma + user.karma);
+
+    final res = await _userProfileRepository.updateUserKarma(user);
+    res.fold((l) => null,
+        (r) => _ref.read(userProvider.notifier).update((state) => user));
   }
 }

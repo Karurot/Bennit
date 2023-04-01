@@ -4,7 +4,7 @@ import 'package:bennit/features/community/screens/community_screen.dart';
 import 'package:bennit/features/community/screens/create_community_screen.dart';
 import 'package:bennit/features/community/screens/edit_community_Screen.dart';
 import 'package:bennit/features/community/screens/mod_tool_screen.dart';
-import 'package:bennit/features/home/screens/home_Screen.dart';
+import 'package:bennit/features/home/screens/home_screen.dart';
 import 'package:bennit/features/post/screens/add_post_type_screen.dart';
 import 'package:bennit/features/post/screens/comment_screen.dart';
 import 'package:bennit/features/user_profile/screens/edit_profile_screen.dart';

@@ -48,6 +48,7 @@ dependencies:
   shared_preferences: ^2.0.18
   uuid: ^3.0.7
   any_link_preview: ^3.0.0
+  url_launcher: ^6.1.10
 
 dev_dependencies:
   flutter_test:
@@ -76,6 +77,7 @@ flutter:
     - assets/images/google.png
     - assets/images/loginEmote.png
     - assets/images/logo.png
+    - assets/images/bennett-mobile-banner.jpg
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

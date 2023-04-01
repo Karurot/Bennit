@@ -31,7 +31,8 @@ class AuthRepository {
   CollectionReference get _users =>
       _firestore.collection(FirebaseConstants.usersCollection);
   Stream<User?> get authStateChange => _auth.authStateChanges();
-  FutureEither<UserModel> signInWithGoogle() async {
+
+  FutureEither<UserModel> signInWithGoogle(bool isFromLogIn) async {
     try {
       final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
       final googleAuth = await googleUser?.authentication;
@@ -39,10 +40,14 @@ class AuthRepository {
         accessToken: googleAuth?.accessToken,
         idToken: googleAuth?.idToken,
       );
-
-      UserCredential userCredential =
-          await _auth.signInWithCredential(credential);
-      late UserModel userModel;
+      UserCredential userCredential;
+      if (isFromLogIn) {
+        userCredential = await _auth.signInWithCredential(credential);
+      } else {
+        userCredential =
+            await _auth.currentUser!.linkWithCredential(credential);
+      }
+      UserModel userModel;
       if (userCredential.additionalUserInfo!.isNewUser) {
         userModel = UserModel(
           name: userCredential.user!.displayName ?? 'No Name',
@@ -57,6 +62,29 @@ class AuthRepository {
       } else {
         userModel = await getUserData(userCredential.user!.uid).first;
       }
+      return right(userModel);
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureEither<UserModel> signInAsGuest() async {
+    try {
+      var userCredential = await _auth.signInAnonymously();
+      UserModel userModel;
+
+      userModel = UserModel(
+        name: 'Guest',
+        profilePic: Constants.avatarDefault,
+        banner: Constants.bannerDefault,
+        uid: userCredential.user!.uid,
+        isAuthenticated: false,
+        karma: 0,
+        awards: [],
+      );
+      await _users.doc(userCredential.user!.uid).set(userModel.toMap());
       return right(userModel);
     } on FirebaseException catch (e) {
       throw e.message!;
