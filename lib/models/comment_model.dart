@@ -1,3 +1,5 @@
+import 'package:flutter/foundation.dart';
+
 class Comment {
   final String id;
   final String text;
@@ -5,6 +7,9 @@ class Comment {
   final String postId;
   final String username;
   final String profilePic;
+  final List<String> upvotes;
+  final List<String> downvotes;
+  final int voteCount;
   Comment({
     required this.id,
     required this.text,
@@ -12,6 +17,9 @@ class Comment {
     required this.postId,
     required this.username,
     required this.profilePic,
+    required this.upvotes,
+    required this.downvotes,
+    required this.voteCount,
   });
 
   Comment copyWith({
@@ -21,6 +29,9 @@ class Comment {
     String? postId,
     String? username,
     String? profilePic,
+    List<String>? upvotes,
+    List<String>? downvotes,
+    int? voteCount,
   }) {
     return Comment(
       id: id ?? this.id,
@@ -29,6 +40,9 @@ class Comment {
       postId: postId ?? this.postId,
       username: username ?? this.username,
       profilePic: profilePic ?? this.profilePic,
+      upvotes: upvotes ?? this.upvotes,
+      downvotes: downvotes ?? this.downvotes,
+      voteCount: voteCount ?? this.voteCount,
     );
   }
 
@@ -40,6 +54,9 @@ class Comment {
       'postId': postId,
       'username': username,
       'profilePic': profilePic,
+      'upvotes': upvotes,
+      'downvotes': downvotes,
+      'voteCount': voteCount,
     };
   }
 
@@ -51,12 +68,15 @@ class Comment {
       postId: map['postId'] ?? '',
       username: map['username'] ?? '',
       profilePic: map['profilePic'] ?? '',
+      upvotes: List<String>.from(map['upvotes']),
+      downvotes: List<String>.from(map['downvotes']),
+      voteCount: map['voteCount']?.toInt() ?? 0,
     );
   }
 
   @override
   String toString() {
-    return 'Comment(id: $id, text: $text, createdAt: $createdAt, postId: $postId, username: $username, profilePic: $profilePic)';
+    return 'Comment(id: $id, text: $text, createdAt: $createdAt, postId: $postId, username: $username, profilePic: $profilePic, upvotes: $upvotes, downvotes: $downvotes, voteCount: $voteCount)';
   }
 
   @override
@@ -69,7 +89,10 @@ class Comment {
         other.createdAt == createdAt &&
         other.postId == postId &&
         other.username == username &&
-        other.profilePic == profilePic;
+        other.profilePic == profilePic &&
+        listEquals(other.upvotes, upvotes) &&
+        listEquals(other.downvotes, downvotes) &&
+        other.voteCount == voteCount;
   }
 
   @override
@@ -79,6 +102,9 @@ class Comment {
         createdAt.hashCode ^
         postId.hashCode ^
         username.hashCode ^
-        profilePic.hashCode;
+        profilePic.hashCode ^
+        upvotes.hashCode ^
+        downvotes.hashCode ^
+        voteCount.hashCode;
   }
 }

@@ -3,6 +3,7 @@ import 'package:bennit/core/common/loader.dart';
 import 'package:bennit/core/common/post_card.dart';
 import 'package:bennit/features/community/controller/community_controller.dart';
 import 'package:bennit/features/post/controller/post_controller.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -23,7 +24,9 @@ class FeedScreen extends ConsumerWidget {
               );
             },
             error: (error, stackTrace) {
-              print(error);
+              if (kDebugMode) {
+                print(error);
+              }
               return ErrorText(error: error.toString());
             },
             loading: () => const Loader()),

@@ -91,6 +91,33 @@ class PostRepository {
     }
   }
 
+  void upvoteComment(Comment comment, String userId) async {
+    if (comment.downvotes.contains(userId)) {
+      _comments.doc(comment.id).update({
+        'downvotes': FieldValue.arrayRemove([userId]),
+      });
+      _comments.doc(comment.id).update({
+        'voteCount': FieldValue.increment(1),
+      });
+    }
+
+    if (comment.upvotes.contains(userId)) {
+      _comments.doc(comment.id).update({
+        'upvotes': FieldValue.arrayRemove([userId]),
+      });
+      _posts.doc(comment.id).update({
+        'voteCount': FieldValue.increment(-1),
+      });
+    } else {
+      _comments.doc(comment.id).update({
+        'upvotes': FieldValue.arrayUnion([userId]),
+      });
+      _comments.doc(comment.id).update({
+        'voteCount': FieldValue.increment(1),
+      });
+    }
+  }
+
   void downvote(Post post, String userId) async {
     if (post.upvotes.contains(userId)) {
       _posts.doc(post.id).update({
@@ -113,6 +140,33 @@ class PostRepository {
         'downvotes': FieldValue.arrayUnion([userId]),
       });
       _posts.doc(post.id).update({
+        'voteCount': FieldValue.increment(-1),
+      });
+    }
+  }
+
+  void downvoteComment(Comment comment, String userId) async {
+    if (comment.upvotes.contains(userId)) {
+      _comments.doc(comment.id).update({
+        'upvotes': FieldValue.arrayRemove([userId]),
+      });
+      _comments.doc(comment.id).update({
+        'voteCount': FieldValue.increment(-1),
+      });
+    }
+
+    if (comment.downvotes.contains(userId)) {
+      _comments.doc(comment.id).update({
+        'downvotes': FieldValue.arrayRemove([userId]),
+      });
+      _comments.doc(comment.id).update({
+        'voteCount': FieldValue.increment(1),
+      });
+    } else {
+      _comments.doc(comment.id).update({
+        'downvotes': FieldValue.arrayUnion([userId]),
+      });
+      _comments.doc(comment.id).update({
         'voteCount': FieldValue.increment(-1),
       });
     }

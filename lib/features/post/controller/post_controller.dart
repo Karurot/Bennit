@@ -202,9 +202,19 @@ class PostController extends StateNotifier<bool> {
     _postRepository.upvote(post, uid);
   }
 
+  void upvoteComment(Comment comment) async {
+    final uid = _ref.read(userProvider)!.uid;
+    _postRepository.upvoteComment(comment, uid);
+  }
+
   void downvote(Post post) async {
     final uid = _ref.read(userProvider)!.uid;
     _postRepository.downvote(post, uid);
+  }
+
+  void downvoteComment(Comment comment) async {
+    final uid = _ref.read(userProvider)!.uid;
+    _postRepository.downvoteComment(comment, uid);
   }
 
   Stream<Post> getPostById(String postId) {
@@ -225,6 +235,9 @@ class PostController extends StateNotifier<bool> {
       postId: post.id,
       username: user.name,
       profilePic: user.profilePic,
+      upvotes: [],
+      downvotes: [],
+      voteCount: 0,
     );
     final res = await _postRepository.addComment(comment);
     _ref

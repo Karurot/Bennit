@@ -40,6 +40,7 @@ class _CommentScreenState extends ConsumerState<CommentScreen> {
     final user = ref.watch(userProvider)!;
     final isGuest = !user.isAuthenticated;
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(),
       body: ref.watch(getPostByIDProvider(widget.postId)).when(
           data: (data) {
