@@ -5,13 +5,13 @@ import 'package:bennit/features/community/screens/create_community_screen.dart';
 import 'package:bennit/features/community/screens/edit_community_Screen.dart';
 import 'package:bennit/features/community/screens/mod_tool_screen.dart';
 import 'package:bennit/features/home/screens/home_screen.dart';
+import 'package:bennit/features/post/screens/add_post_screen.dart';
 import 'package:bennit/features/post/screens/add_post_type_screen.dart';
 import 'package:bennit/features/post/screens/comment_screen.dart';
 import 'package:bennit/features/user_profile/screens/edit_profile_screen.dart';
 import 'package:bennit/features/user_profile/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:routemaster/routemaster.dart';
-
 import 'features/home/screens/top_posts_screen.dart';
 
 final loggedOutRoute = RouteMap(routes: {
@@ -24,6 +24,7 @@ final loggedInRoute = RouteMap(
     '/create-community': (_) =>
         const MaterialPage(child: CreateCommunityScreen()),
     '/top-posts': (_) => const MaterialPage(child: TopPostScreen()),
+    '/add-post': (_) => const MaterialPage(child: AddPostScreen()),
     '/b/:name': (route) => MaterialPage(
           child: CommunityScreen(
             name: route.pathParameters['name']!,

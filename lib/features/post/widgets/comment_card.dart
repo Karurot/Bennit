@@ -13,6 +13,10 @@ class CommentCard extends ConsumerWidget {
     required this.comment,
   });
 
+  void deleteComm(WidgetRef ref, BuildContext context) async {
+    ref.read(postConrollerProvider.notifier).deleteComment(comment, context);
+  }
+
   void upvote(WidgetRef ref) async {
     ref.read(postConrollerProvider.notifier).upvoteComment(comment);
   }
@@ -83,6 +87,15 @@ class CommentCard extends ConsumerWidget {
                                     : null,
                               ),
                             ),
+                            if (comment.username == user.name)
+                              IconButton(
+                                onPressed: () => deleteComm(ref, context),
+                                icon: Icon(
+                                  size: 15,
+                                  Icons.delete,
+                                  color: Pallete.redColor,
+                                ),
+                              ),
                           ],
                         ),
                       ],

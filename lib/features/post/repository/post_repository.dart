@@ -47,6 +47,39 @@ class PostRepository {
             .toList());
   }
 
+  Stream<List<Post>> fetchTopUserPosts(List<Community> communities) {
+    return _posts
+        .where('communityName',
+            whereIn: communities.map((e) => e.name).toList())
+        .orderBy('voteCount', descending: true)
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
+  }
+
+  Stream<List<Post>> fetchOldUserPosts(List<Community> communities) {
+    return _posts
+        .where('communityName',
+            whereIn: communities.map((e) => e.name).toList())
+        .orderBy('createdAt')
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
+  }
+
+  Stream<List<Post>> fetchBottomUserPosts(List<Community> communities) {
+    return _posts
+        .where('communityName',
+            whereIn: communities.map((e) => e.name).toList())
+        .orderBy('voteCount')
+        .snapshots()
+        .map((event) => event.docs
+            .map((e) => Post.fromMap(e.data() as Map<String, dynamic>))
+            .toList());
+  }
+
   Stream<List<Post>> fetchTopPosts(List<Community> communities) {
     return _posts.orderBy('voteCount', descending: true).snapshots().map(
         (event) => event.docs
@@ -57,6 +90,19 @@ class PostRepository {
   FutureVoid deletePost(Post post) async {
     try {
       return right(_posts.doc(post.id).delete());
+    } on FirebaseException catch (e) {
+      throw e.message!;
+    } catch (e) {
+      return left(Failure(e.toString()));
+    }
+  }
+
+  FutureVoid deleteComment(Comment comment) async {
+    try {
+      _posts.doc(comment.postId).update({
+        'commentCount': FieldValue.increment(-1),
+      });
+      return right(_comments.doc(comment.id).delete());
     } on FirebaseException catch (e) {
       throw e.message!;
     } catch (e) {

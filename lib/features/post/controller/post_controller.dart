@@ -29,6 +29,23 @@ final userPostsProvider =
   final postController = ref.watch(postConrollerProvider.notifier);
   return postController.fetchUserPosts(communities);
 });
+final topuserPostsProvider =
+    StreamProvider.family((ref, List<Community> communities) {
+  final postController = ref.watch(postConrollerProvider.notifier);
+  return postController.fetchTopUserPosts(communities);
+});
+
+final olduserPostsProvider =
+    StreamProvider.family((ref, List<Community> communities) {
+  final postController = ref.watch(postConrollerProvider.notifier);
+  return postController.fetchOldUserPosts(communities);
+});
+
+final bottomuserPostsProvider =
+    StreamProvider.family((ref, List<Community> communities) {
+  final postController = ref.watch(postConrollerProvider.notifier);
+  return postController.fetchBottomUserPosts(communities);
+});
 
 final topPostsProvider =
     StreamProvider.family((ref, List<Community> communities) {
@@ -177,7 +194,36 @@ class PostController extends StateNotifier<bool> {
 
   Stream<List<Post>> fetchUserPosts(List<Community> communities) {
     if (communities.isNotEmpty) {
-      return _postRepository.fetchUserPosts(communities);
+      return _postRepository.fetchUserPosts(
+        communities,
+      );
+    }
+    return Stream.value([]);
+  }
+
+  Stream<List<Post>> fetchTopUserPosts(List<Community> communities) {
+    if (communities.isNotEmpty) {
+      return _postRepository.fetchTopUserPosts(
+        communities,
+      );
+    }
+    return Stream.value([]);
+  }
+
+  Stream<List<Post>> fetchOldUserPosts(List<Community> communities) {
+    if (communities.isNotEmpty) {
+      return _postRepository.fetchOldUserPosts(
+        communities,
+      );
+    }
+    return Stream.value([]);
+  }
+
+  Stream<List<Post>> fetchBottomUserPosts(List<Community> communities) {
+    if (communities.isNotEmpty) {
+      return _postRepository.fetchBottomUserPosts(
+        communities,
+      );
     }
     return Stream.value([]);
   }
@@ -195,6 +241,11 @@ class PostController extends StateNotifier<bool> {
         .read(userProfileControllerProvider.notifier)
         .updateUserKarma(UserKarma.deletePost);
     res.fold((l) => null, (r) => showSnackBar(context, 'Post deleted'));
+  }
+
+  void deleteComment(Comment comment, BuildContext context) async {
+    final res = await _postRepository.deleteComment(comment);
+    res.fold((l) => null, (r) => showSnackBar(context, 'comment deleted'));
   }
 
   void upvote(Post post) async {

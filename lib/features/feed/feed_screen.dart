@@ -8,17 +8,106 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class FeedScreen extends ConsumerWidget {
-  const FeedScreen({super.key});
+  int sort;
+  FeedScreen({super.key, required this.sort});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    if (sort == 2) {
+      return ref.watch(userCommunitesProvider).when(
+          data: (data) => ref.watch(userPostsProvider(data)).when(
+              data: (data) {
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var post = data[index];
+                    return PostCard(post: post);
+                  },
+                );
+              },
+              error: (error, stackTrace) {
+                if (kDebugMode) {
+                  print(error);
+                }
+                return ErrorText(error: error.toString());
+              },
+              loading: () => const Loader()),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+          loading: () => const Loader());
+    }
+    if (sort == 1) {
+      return ref.watch(userCommunitesProvider).when(
+          data: (data) => ref.watch(topuserPostsProvider(data)).when(
+              data: (data) {
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var post = data[index];
+                    return PostCard(post: post);
+                  },
+                );
+              },
+              error: (error, stackTrace) {
+                if (kDebugMode) {
+                  print(error);
+                }
+                return ErrorText(error: error.toString());
+              },
+              loading: () => const Loader()),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+          loading: () => const Loader());
+    }
+    if (sort == 3) {
+      return ref.watch(userCommunitesProvider).when(
+          data: (data) => ref.watch(olduserPostsProvider(data)).when(
+              data: (data) {
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var post = data[index];
+                    return PostCard(post: post);
+                  },
+                );
+              },
+              error: (error, stackTrace) {
+                if (kDebugMode) {
+                  print(error);
+                }
+                return ErrorText(error: error.toString());
+              },
+              loading: () => const Loader()),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+          loading: () => const Loader());
+    }
+    if (sort == 4) {
+      return ref.watch(userCommunitesProvider).when(
+          data: (data) => ref.watch(bottomuserPostsProvider(data)).when(
+              data: (data) {
+                return ListView.builder(
+                  itemCount: data.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    var post = data[index];
+                    return PostCard(post: post);
+                  },
+                );
+              },
+              error: (error, stackTrace) {
+                if (kDebugMode) {
+                  print(error);
+                }
+                return ErrorText(error: error.toString());
+              },
+              loading: () => const Loader()),
+          error: (error, stackTrace) => ErrorText(error: error.toString()),
+          loading: () => const Loader());
+    }
     return ref.watch(userCommunitesProvider).when(
         data: (data) => ref.watch(userPostsProvider(data)).when(
             data: (data) {
               return ListView.builder(
                 itemCount: data.length,
                 itemBuilder: (BuildContext context, int index) {
-                  final post = data[index];
+                  var post = data[index];
                   return PostCard(post: post);
                 },
               );

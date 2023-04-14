@@ -12,7 +12,7 @@ class SearchCommunityDelegate extends SearchDelegate {
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
-        icon: Icon(Icons.close),
+        icon: const Icon(Icons.clear),
         onPressed: () {
           query = '';
         },
