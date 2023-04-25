@@ -110,7 +110,7 @@ class PostController extends StateNotifier<bool> {
 
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Post shared successfully');
-      Routemaster.of(context).pop();
+      Routemaster.of(context).push('/');
     });
   }
 
@@ -147,7 +147,7 @@ class PostController extends StateNotifier<bool> {
     state = false;
     res.fold((l) => showSnackBar(context, l.message), (r) {
       showSnackBar(context, 'Post shared successfully');
-      Routemaster.of(context).pop();
+      Routemaster.of(context).push('/');
     });
   }
 
@@ -187,7 +187,7 @@ class PostController extends StateNotifier<bool> {
       state = false;
       res.fold((l) => showSnackBar(context, l.message), (r) {
         showSnackBar(context, 'Post shared successfully');
-        Routemaster.of(context).pop();
+        Routemaster.of(context).push('/');
       });
     });
   }

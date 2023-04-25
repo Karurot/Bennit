@@ -1,6 +1,6 @@
 import 'package:bennit/core/common/post_card.dart';
 import 'package:bennit/features/user_profile/controller/user_profile_controller.dart';
-import 'package:bennit/theme/pallete.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:routemaster/routemaster.dart';
@@ -21,6 +21,12 @@ class UserProfileScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final bool show;
+    if (FirebaseAuth.instance.currentUser?.uid == uid) {
+      show = true;
+    } else {
+      show = false;
+    }
     return Scaffold(
       body: ref.watch(getUserDataProvider(uid)).when(
           data: (user) => NestedScrollView(
@@ -47,21 +53,24 @@ class UserProfileScreen extends ConsumerWidget {
                               radius: 45,
                             ),
                           ),
-                          Container(
-                            alignment: Alignment.bottomLeft,
-                            padding: const EdgeInsets.all(20),
-                            child: OutlinedButton(
-                              onPressed: () => navigateToEditUser(context),
-                              style: ElevatedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 25),
-                              ),
-                              child: const Text("Edit Profile"),
-                            ),
-                          ),
+                          show
+                              ? Container(
+                                  alignment: Alignment.bottomLeft,
+                                  padding: const EdgeInsets.all(20),
+                                  child: OutlinedButton(
+                                    onPressed: () =>
+                                        navigateToEditUser(context),
+                                    style: ElevatedButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                      ),
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 25),
+                                    ),
+                                    child: const Text("Edit Profile"),
+                                  ),
+                                )
+                              : SizedBox(),
                         ],
                       ),
                     ),
